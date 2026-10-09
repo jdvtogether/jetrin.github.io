@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>YOUR NAME — Selected Work</title>
+  <meta name="description" content="Selected creative work by YOUR NAME." />
+
+  <!-- Typewriter-style typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #fff;
+      --ink: #20201e;
+      --muted: #777670;
+      --line: #deded9;
+      --side-width: 33.333%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* LEFT PANEL */
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--side-width);
+      padding: 34px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--line);
+      z-index: 5;
+      background: var(--paper);
+    }
+
+    .identity {
+      display: inline-block;
+      width: fit-content;
+      max-width: 100%;
+      font-family: "Special Elite", monospace;
+      font-size: clamp(28px, 3.2vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      overflow-wrap: anywhere;
+
+      /* Imperfect, ink-stamped appearance */
+      color: #292925;
+      text-shadow:
+        0.5px 0 #292925,
+        -0.35px 0 #292925;
+      transform: rotate(-1.2deg);
+      opacity: 0.94;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .intro {
+      max-width: 280px;
+      margin-top: 22px;
+      font-size: 11px;
+    }
+
+    .navigation {
+      margin-top: 46px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .navigation a {
+      width: fit-content;
+      transition: opacity 180ms ease;
+    }
+
+    .navigation a:hover {
+      opacity: 0.45;
+    }
+
+    .nav-number {
+      display: inline-block;
+      width: 32px;
+      color: var(--muted);
+    }
+
+    .sidebar-bottom {
+      display: grid;
+      gap: 18px;
+    }
+
+    .info-label {
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .contact-link {
+      width: fit-content;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    /* RIGHT WORK AREA */
+
+    .main {
+      width: calc(100% - var(--side-width));
+      margin-left: var(--side-width);
+      padding: 34px 34px 24px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .project-count {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 34px 20px;
+    }
+
+    .project {
+      min-width: 0;
+    }
+
+    .media {
+      position: relative;
+      overflow: hidden;
+      background: #efefeb;
+      aspect-ratio: 4 / 3;
+      isolation: isolate;
+    }
+
+    .media img,
+    .media video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition:
+        transform 500ms cubic-bezier(.2, .7, .2, 1),
+        opacity 300ms ease;
+    }
+
+    .media img {
+      z-index: 0;
+      filter: saturate(0.85);
+    }
+
+    .media video {
+      z-index: 1;
+      opacity: 0;
+    }
+
+    /* Hover enlarges the work */
+    .project:hover .media img,
+    .project:focus-within .media img {
+      transform: scale(1.045);
+    }
+
+    .project.has-video:hover .media video,
+    .project.has-video:focus-within .media video {
+      opacity: 1;
+    }
+
+    .project.has-video:hover .media img,
+    .project.has-video:focus-within .media img {
+      opacity: 0;
+    }
+
+    /* Description appears over the image */
+    .project-description {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px;
+      color: white;
+      background: linear-gradient(
+        transparent 15%,
+        rgba(0, 0, 0, 0.72)
+      );
+      opacity: 0;
+      transition: opacity 250ms ease;
+      pointer-events: none;
+    }
+
+    .project:hover .project-description,
+    .project:focus-within .project-description {
+      opacity: 1;
+    }
+
+    .description-title {
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .description-copy {
+      max-width: 340px;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .project-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .project-title {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .project-type {
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 2px;
+    }
+
+    .project-index {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--line);
+      margin-top: 42px;
+      padding-top: 14px;
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 760px) {
+      :root {
+        --side-width: 100%;
+      }
+
+      .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        padding: 26px 20px 20px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        gap: 25px;
+      }
+
+      .identity {
+        font-size: 40px;
+      }
+
+      .intro {
+        margin-top: 12px;
+      }
+
+      .navigation {
+        margin-top: 24px;
+        grid-template-columns: repeat(3, auto);
+        justify-content: start;
+        column-gap: 18px;
+      }
+
+      .nav-number {
+        width: auto;
+        margin-right: 4px;
+      }
+
+      .sidebar-bottom {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 24px 20px;
+      }
+
+      .work-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      /* On touchscreens, keep descriptions readable */
+      .project-description {
+        opacity: 1;
+        padding: 14px;
+        background: linear-gradient(
+          transparent 35%,
+          rgba(0, 0, 0, 0.65)
+        );
+      }
+
+      .project-description .description-copy {
+        max-width: 90%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar" id="about">
+    <div>
+      <div class="eyebrow">Independent creative / Portfolio 2026</div>
+
+      <a class="identity" href="#work">YOUR<br>NAME®</a>
+
+      <p class="intro">
+        Creative practice across image, motion, design
+        and digital experimentation.
+      </p>
+
+      <nav class="navigation" aria-label="Main navigation">
+        <a href="#work"><span class="nav-number">01</span>WORK</a>
+        <a href="#about"><span class="nav-number">02</span>ABOUT</a>
+        <a href="#contact"><span class="nav-number">03</span>CONTACT</a>
+      </nav>
+    </div>
+
+    <div class="sidebar-bottom" id="contact">
+      <div>
+        <div class="info-label">Location</div>
+        <div>YOUR CITY, COUNTRY</div>
+        <div class="info-label" style="margin-top: 12px;">Availability</div>
+        <div>OPEN TO SELECT PROJECTS</div>
+      </div>
+
+      <div>
+        <div class="info-label">Get in touch</div>
+        <a class="contact-link" href="mailto:hello@example.com">
+          EMAIL ↗
+        </a>
+        <div class="info-label" style="margin-top: 12px;">Elsewhere</div>
+        <a href="https://www.instagram.com/">INSTAGRAM ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main" id="work">
+    <header class="topline">
+      <span>SELECTED WORK / 2024—2026</span>
+      <span class="project-count">INDEX_001—004</span>
+    </header>
+
+    <section class="work-grid" aria-label="Selected projects">
+
+      <!-- PROJECT 01 -->
+      <article class="project">
+        <a href="#contact" aria-label="Project 01: Form Study">
+          <div class="media">
+            <img
+              src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1000&q=85"
+              alt="Architectural structure and geometric forms"
+              loading="lazy"
+            />
+            <div class="project-description">
+              <div class="description-title">FORM STUDY — 001</div>
+              <div class="description-copy">
+                An exploration of geometry, material and negative
+                space. A study in reducing form to its essentials.
+              </div>
+            </div>
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">FORM STUDY</div>
+              <div class="project-type">ART DIRECTION / 2026</div>
+            </div>
+            <span class="project-index">01 ↗</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- PROJECT 02: VIDEO PREVIEW -->
+      <article class="project has-video">
+        <a href="#contact" aria-label="Project 02: Motion System">
+          <div class="media">
+            <img
+              src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=85"
+              alt="Retro electronic equipment and visual textures"
+              loading="lazy"
+            />
+            <video
+              muted
+              loop
+              playsinline
+              preload="none"
+              aria-label="Motion project video preview"
+            >
+              <source
+                src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                type="video/mp4"
+              />
+            </video>
+            <div class="project-description">
+              <div class="description-title">MOTION SYSTEM — 002</div>
+              <div class="description-copy">
+                A moving-image experiment focused on rhythm,
+                repetition and the relationship between time and form.
+              </div>
+            </div>
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">MOTION SYSTEM</div>
+              <div class="project-type">MOTION / EXPERIMENTAL</div>
+            </div>
+            <span class="project-index">02 ↗</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- PROJECT 03 -->
+      <article class="project">
+        <a href="#contact" aria-label="Project 03: Visual Archive">
+          <div class="media">
+            <img
+              src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1000&q=85"
+              alt="Notebook and creative working materials"
+              loading="lazy"
+            />
+            <div class="project-description">
+              <div class="description-title">VISUAL ARCHIVE — 003</div>
+              <div class="description-copy">
+                A collection of visual notes, references and
+                experiments documenting an evolving creative practice.
+              </div>
+            </div>
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">VISUAL ARCHIVE</div>
+              <div class="project-type">PHOTOGRAPHY / RESEARCH</div>
+            </div>
+            <span class="project-index">03 ↗</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- PROJECT 04 -->
+      <article class="project">
+        <a href="#contact" aria-label="Project 04: Object Studies">
+          <div class="media">
+            <img
+              src="https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=1000&q=85"
+              alt="Minimalist object and sculptural composition"
+              loading="lazy"
+            />
+            <div class="project-description">
+              <div class="description-title">OBJECT STUDIES — 004</div>
+              <div class="description-copy">
+                An exercise in light, surface and composition.
+                Small details treated as the primary subject.
+              </div>
+            </div>
+          </div>
+          <div class="project-meta">
+            <div>
+              <div class="project-title">OBJECT STUDIES</div>
+              <div class="project-type">IMAGE-MAKING / 2025</div>
+            </div>
+            <span class="project-index">04 ↗</span>
+          </div>
+        </a>
+      </article>
+
+    </section>
+
+    <footer class="footer">
+      <span>INDEPENDENT BY DESIGN.</span>
+      <span>© YOUR NAME / 2026</span>
+    </footer>
+  </main>
+
+  <script>
+    // Play video previews while a project is hovered or focused.
+    document.querySelectorAll(".project.has-video").forEach((project) => {
+      const video = project.querySelector("video");
+
+      function playPreview() {
+        video.play().catch(() => {
+          // Playback can be blocked by browser settings.
+        });
+      }
+
+      function stopPreview() {
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      project.addEventListener("mouseenter", playPreview);
+      project.addEventListener("mouseleave", stopPreview);
+      project.addEventListener("focusin", playPreview);
+      project.addEventListener("focusout", stopPreview);
+    });
+  </script>
+</body>
+</html>
